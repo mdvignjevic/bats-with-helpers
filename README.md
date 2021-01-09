@@ -39,7 +39,7 @@ Milan Vignjevic – panta5555@gmail.com
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
-[https://github.com/panta5/bats-with-helpers](https://github.com/panta5/)
+[https://github.com/panta5/bats-with-helpers](https://github.com/panta5/bats-with-helpers)
 
 ## Contributing
 
