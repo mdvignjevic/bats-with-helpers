@@ -40,7 +40,7 @@ test:
 	@echo "  version: $(VERSION)${NC}\n"
 		@docker run 					\
 			--rm 						\
-			-it 						\
+			-t 						\
 			--volume "${PWD}:/code" 	\
 			$(IMAGE):$(VERSION) 		\
 			./tests/test-example.bats
