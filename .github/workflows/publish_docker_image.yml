@@ -4,7 +4,7 @@ name: CI to Docker hub
 on:
   push:
     # Publish `master` as Docker `latest` image.
-    branches: [ master ]
+    branches: [master]
     # Publish `v1.2.3` tags as releases.
     tags:
       - "v*.*.*"
@@ -17,7 +17,6 @@ env:
   IMAGE_ID: "mvignjevic/$IMAGE_NAME"
 
 jobs:
-
   lint:
     name: Run linters against test_helpers.bash and Dockerfile
     runs-on: ubuntu-latest
@@ -67,7 +66,6 @@ jobs:
       # - name: Build image
       #   run: make build VERSION=0.0.1
       #   # run: make build
-
 
   # test:
   #   name: Running test-example.bats unit tests using Docker image
