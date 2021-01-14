@@ -1,0 +1,55 @@
+---
+name: CI to Docker hub
+
+on:
+  push:
+    # Publish `master` as Docker `latest` image.
+    branches: [ master ]
+    # Publish `v1.2.3` tags as releases.
+    tags:
+      - "v*.*.*"
+
+  # Run lint, build, test jobs for any PRs.
+  pull_request:
+
+env:
+  IMAGE_NAME: bats-with-helpers
+
+jobs:
+
+  lint:
+    name: Run linters against test_helpers.bash and Dockerfile
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repository under $GITHUB_WORKSPACE, so workflow can access it.
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run linters
+        run: make lint
+
+  build:
+    name: Build Docker image with labels
+    # Ensure lint job passes before building image.
+    needs: lint
+    runs-on: ubuntu-latest
+    env:
+       DOCKER_BUILDKIT: "1"
+       VERSION: "commit tag ???"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Build image
+        run: make build VERSION=0.0.1
+        # run: make build
+
+  test:
+    name: Running test-example.bats unit tests using Docker image
+    # Ensure build job passes before building image.
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Run test
+        # run: make test
+        run: make test VERSION=0.0.1
