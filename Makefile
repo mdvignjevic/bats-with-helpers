@@ -46,6 +46,12 @@ test:
 			./tests/test-example.bats
 	@echo "\n"
 
+.PHONY: push
+# Example: make push VERSION=latest
+push: lint build test
+	@echo "\n${BLUE}Pushing image to GitHub Docker Registry...${NC}\n"
+	@docker push $(IMAGE):latest
+
 .PHONY: shell
 # Example: make shell VERSION=0.0.1
 shell:
@@ -58,23 +64,17 @@ shell:
 			$(IMAGE):$(VERSION)
 
 .PHONY: shell
-# Example: make shell-cmd VERSION=0.0.1 CMD="-c 'date > datefile'"
+# Example: make shell-cmd VERSION=0.0.1 CMD="-c 'date >> datefile'"
 shell-cmd:
 	@echo "\n\n${BLUE}Running a shell command in the containerized build environment...${NC}\n"
 		@docker run 					\
 			--rm 						\
-			-it 						\
+			-t 						\
 			--volume "${PWD}:/code" 	\
 			--entrypoint /bin/sh 		\
 			--user $$(id -u):$$(id -g) 	\
 			$(IMAGE):$(VERSION) 		\
 			$(CMD)
-
-# .PHONY: push
-# # Example: make push VERSION=0.0.2
-# push: lint build test
-#       @echo "\n${BLUE}Pushing image to GitHub Docker Registry...${NC}\n"
-#       @docker push $(IMAGE):$(VERSION)
 
 .PHONY: clean
 clean:

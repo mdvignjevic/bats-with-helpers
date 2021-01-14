@@ -13,7 +13,8 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: bats-with-helpers
+  IMAGE_NAME: "bats-with-helpers"
+  IMAGE_ID: "mvignjevic/$IMAGE_NAME"
 
 jobs:
 
@@ -33,33 +34,39 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     env:
-       DOCKER_BUILDKIT: "1"
-       VERSION: "commit tag ???"
+      DOCKER_BUILDKIT: "1"
+      VERSION: "commit tag ???"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      # - name: Build image
-      #   run: make build VERSION=0.0.1
-      #   # run: make build
 
       - name: Find version
         run: |
-          IMAGE_ID=mvignjevic/$IMAGE_NAME
+          # Make sure IMAGE_ID is all in lowercase
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[:upper:]' '[:lower:]')
 
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          echo "${{ github.ref }}"
 
           # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's|.*/\(.*\)|\1|')
+
+          echo $VERSION
 
           # Strip "v" prefix from tag name
           [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          echo $VERSION
 
           # Use Docker `latest` tag convention
           [ "$VERSION" == "master" ] && VERSION=latest
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
+
+      # - name: Build image
+      #   run: make build VERSION=0.0.1
+      #   # run: make build
 
 
   # test:

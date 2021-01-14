@@ -1,11 +1,11 @@
 #!/usr/bin/env bats
 
-load '/bats-test-helpers/bats-support/load.bash'
-load '/bats-test-helpers/bats-assert/load.bash'
-load '/bats-test-helpers/bats-assertion/bats-assertion.bash'
-load '/bats-test-helpers/lox-bats-mock/stub.bash'
-load '/bats-test-helpers/grayhemp-bats-mock/load.bash'
-load '/bats-test-helpers/bats-file/load.bash'
+load '/opt/bats-support/load.bash'
+load '/opt/bats-assert/load.bash'
+load '/opt/bats-assertion/bats-assertion.bash'
+load '/opt/bats-file/load.bash'
+load '/opt/bats-mock-lox/stub.bash'
+load '/opt/bats-mock-grayhemp/load.bash'
 load '/code/tests/test_helpers.bash'
 
 setup() {
