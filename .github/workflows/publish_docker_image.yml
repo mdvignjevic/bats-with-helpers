@@ -26,87 +26,24 @@ jobs:
       - name: Run linters
         run: make lint
 
-  build:
-    name: Build Docker image with labels
-    # Ensure lint job passes before building image.
+  test_build:
+    name: Build Docker image and exercise tests from test-example.bats
+    # Ensure lint job passes before building image and testing.
     needs: lint
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
-      # - name: Find version
-      #   run: |
-      #     # Make sure DOCKER_IMAGE is all in lowercase
-      #     DOCKER_IMAGE=$(echo $DOCKER_IMAGE | tr '[:upper:]' '[:lower:]')
-
-      #     echo "${{ github.ref }}"
-
-      #     # Strip git ref prefix from version
-      #     VERSION=$(echo "${{ github.ref }}" | sed -e 's|.*/\(.*\)|\1|')
-
-      #     echo $VERSION
-
-      #     # Strip "v" prefix from tag name
-      #     [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-
-      #     echo $VERSION
-
-      #     # Use Docker `latest` tag convention
-      #     [[ "$VERSION" == "master" ]] && VERSION=latest
-
-      #     echo DOCKER_IMAGE=$DOCKER_IMAGE
-      #     echo VERSION=$VERSION
-
-      # - name: Echo version
-      #   run: echo $VERSION
-
-      - name: Docker meta
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          images: ${DOCKER_IMAGE} # List of Docker images to use as base name for tags
-          tag-semver: |
-            {{version}}
-            {{major}}.{{minor}}
-            {{major}}
-
-      - name: Echo docker_meta
-        run: |
-          echo "tags: ${{ steps.docker_meta.outputs.tags }}"
-          echo "version: ${{ steps.docker_meta.outputs.version }}"
-
-      # - name: Build image
-      #   run: make build VERSION=0.0.1
-      #   # run: make build
-
-  test:
-    name: Test tags
-    # Ensure build job passes before building image.
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Docker meta
+      - name: Docker meta to get semver version
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           images: ${DOCKER_IMAGE} # List of Docker images to use as base name for tags
           tag-semver: "{{version}}"
 
-      - name: Echo docker_meta
-        run: |
-          echo "tags: ${{ steps.docker_meta.outputs.tags }}"
-          echo "version: ${{ steps.docker_meta.outputs.version }}"
+      - name: Build image using the latest tag
+        run: make build VERSION=${{ steps.docker_meta.outputs.version }}
 
-  # test:
-  #   name: Running test-example.bats unit tests using Docker image
-  #   # Ensure build job passes before building image.
-  #   needs: build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v2
-  #     - name: Run test
-  #       # run: make test
-  #       run: make test VERSION=0.0.1
+      - name: Run test-example.bats unit tests against previously built Docker image
+        run: make test VERSION=${{ steps.docker_meta.outputs.version }}
