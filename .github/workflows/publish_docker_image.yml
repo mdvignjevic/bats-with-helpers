@@ -63,6 +63,25 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
+      - name: Echo version
+        run: echo $VERSION
+
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: name/app # List of Docker images to use as base name for tags
+          tag-semver: |
+            {{version}}
+            {{major}}.{{minor}}
+            {{major}}
+
+      - name: Echo version
+        run: |
+          echo "tags: ${{ steps.docker_meta.outputs.tags }}"
+          echo "labels: ${{ steps.docker_meta.outputs.labels }}"
+          echo "version: ${{ steps.docker_meta.outputs.version }}"
+
       # - name: Build image
       #   run: make build VERSION=0.0.1
       #   # run: make build

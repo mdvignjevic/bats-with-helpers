@@ -1,12 +1,20 @@
 # Use different base image based on your needs, to support all shell script functionality
 FROM alpine:3.12
 
-LABEL name={NAME} \
-    version={VERSION} \
-    description="Docker image that contains bats-core testing system and bats test helpers"
+LABEL org.opencontainers.image.title="mvignjevic/{NAME}"
+LABEL org.opencontainers.image.description="Docker image that contains bats-core testing system and bats test helpers"
+LABEL org.opencontainers.image.url="https://github.com/panta5/bats-with-helpers"
+LABEL org.opencontainers.image.source="https://github.com/panta5/bats-with-helpers"
+LABEL org.opencontainers.image.authors="Milan Vignjevic <panta5555@gmail.com>"
+LABEL org.opencontainers.image.os="linux"
+LABEL org.opencontainers.image.architecture="x86_64"
+LABEL org.opencontainers.image.docker.cmd='docker run --rm -t -v ${PWD}:/code mvignjevic/bats-with-helpers ./tests/test-example.bats'
+LABEL org.opencontainers.image.docker.debug='docker run --rm -it -v ${PWD}:/code --entrypoint /bin/sh mvignjevic/bats-with-helpers'
+LABEL org.opencontainers.image.licenses="MIT"
 
 # hadolint ignore=DL3018
-RUN apk update && apk add --no-cache \
+RUN apk update \
+    && apk add --no-cache \
     bash \
     curl \
     git \
@@ -14,14 +22,12 @@ RUN apk update && apk add --no-cache \
     wget \
     && rm -rf /var/cache/apk/*
 
-RUN git clone https://github.com/bats-core/bats-core.git /opt/bats-core
-RUN git clone https://github.com/ztombol/bats-support /opt/bats-support
-RUN git clone https://github.com/ztombol/bats-assert /opt/bats-assert
-RUN git clone https://github.com/thingsym/bats-assertion /opt/bats-assertion
-RUN git clone https://github.com/ztombol/bats-file /opt/bats-file
-RUN git clone https://github.com/lox/bats-mock /opt/bats-mock-lox
-RUN git clone https://github.com/grayhemp/bats-mock /opt/bats-mock-grayhemp
+COPY ./bats-libs/ /opt/bats-libs/
+
+ARG BUILD_DATE
+LABEL org.opencontainers.image.version={VERSION}
+LABEL org.opencontainers.image.created=${BUILD_DATE}
 
 WORKDIR /code
 
-ENTRYPOINT ["/opt/bats-core/bin/bats"]
+ENTRYPOINT ["/opt/bats-libs/bats-core/bin/bats"]

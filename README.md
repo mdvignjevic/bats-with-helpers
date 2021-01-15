@@ -9,28 +9,34 @@ Bats is a TAP-compliant testing framework for Bash. It provides a simple way to 
 A Bats test file is a Bash script with special syntax for defining test cases. Under the hood, each test case is just a function with a description.
 <https://github.com/bats-core/bats-core>
 
-**TODO**: Add assertions provided by each bats helper
+**TODO**: Add assertions to excercise each bats helper included
 
 ## Usage example
 
-- Using pretty (default with tty allocated) formatter:
+- Run bats tests using pretty (default with tty allocated) formatter:
 
 ```bash
-docker run -it -v "${PWD}:/code" bats-with-helpers ./tests/test-example.bats
+docker run -t -v "${PWD}:/code" mvignjevic/bats-with-helpers ./tests/test-example.bats
 ```
 
-- Using tap (default without tty) formatter:
+- Run bats tests using tap (default without tty) formatter:
 
 ```bash
-docker run -i -v "${PWD}:/code" bats-with-helpers ./tests/test-example.bats
+docker run -v "${PWD}:/code" mvignjevic/bats-with-helpers ./tests/test-example.bats
+```
+
+- Run the container with the interactive shell for debugging:
+
+```bash
+docker run --rm -it -v ${PWD}:/code --entrypoint /bin/sh mvignjevic/bats-with-helpers
 ```
 
 ## Release History
 
-- 0.1.0
+- 1.0.0
   - The first proper release
   - CHANGE: Rename `foo()` to `bar()`
-- 0.0.1
+- 0.1.0
   - Work in progress
 
 ## Meta

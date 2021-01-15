@@ -1,0 +1,21 @@
+[submodule "bats-libs/bats-core"]
+	path = bats-libs/bats-core
+	url = https://github.com/bats-core/bats-core.git
+[submodule "bats-libs/bats-support"]
+	path = bats-libs/bats-support
+	url = https://github.com/ztombol/bats-support
+[submodule "bats-libs/bats-assert"]
+	path = bats-libs/bats-assert
+	url = https://github.com/ztombol/bats-assert
+[submodule "bats-libs/bats-assertion"]
+	path = bats-libs/bats-assertion
+	url = https://github.com/thingsym/bats-assertion
+[submodule "bats-libs/bats-file"]
+	path = bats-libs/bats-file
+	url = https://github.com/ztombol/bats-file
+[submodule "bats-libs/bats-mock-lox"]
+	path = bats-libs/bats-mock-lox
+	url = https://github.com/lox/bats-mock
+[submodule "bats-libs/bats-mock-grayhemp"]
+	path = bats-libs/bats-mock-grayhemp
+	url = https://github.com/grayhemp/bats-mock
