@@ -71,6 +71,7 @@ jobs:
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
+            {{major}}
 
       - name: Echo docker_meta
         run: |
