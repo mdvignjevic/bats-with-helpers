@@ -82,6 +82,23 @@ jobs:
       #   run: make build VERSION=0.0.1
       #   # run: make build
 
+  test:
+    name: Test tags
+    # Ensure build job passes before building image.
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Docker meta
+        id: docker_meta
+        uses: crazy-max/ghaction-docker-meta@v1
+        with:
+          images: $IMAGE_ID # List of Docker images to use as base name for tags
+          tag-semver: |
+            {{version}}
+        run: |
+          echo "tags: ${{ steps.docker_meta.outputs.tags }}"
+          echo "version: ${{ steps.docker_meta.outputs.version }}"
+
   # test:
   #   name: Running test-example.bats unit tests using Docker image
   #   # Ensure build job passes before building image.
