@@ -24,6 +24,8 @@ RUN apk update \
 
 COPY ./bats-libs/ /opt/bats-libs/
 
+RUN echo $(ls -l /opt/bats-libs/)
+
 ARG BUILD_DATE
 LABEL org.opencontainers.image.version={VERSION}
 LABEL org.opencontainers.image.created=${BUILD_DATE}
