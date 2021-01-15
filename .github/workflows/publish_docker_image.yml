@@ -13,8 +13,8 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: "bats-with-helpers"
-  IMAGE_ID: "mvignjevic/$IMAGE_NAME"
+  IMAGE_NAME: bats-with-helpers
+  IMAGE_ID: mvignjevic/$IMAGE_NAME
 
 jobs:
   lint:
@@ -40,31 +40,31 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Find version
-        run: |
-          # Make sure IMAGE_ID is all in lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[:upper:]' '[:lower:]')
+      # - name: Find version
+      #   run: |
+      #     # Make sure IMAGE_ID is all in lowercase
+      #     IMAGE_ID=$(echo $IMAGE_ID | tr '[:upper:]' '[:lower:]')
 
-          echo "${{ github.ref }}"
+      #     echo "${{ github.ref }}"
 
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's|.*/\(.*\)|\1|')
+      #     # Strip git ref prefix from version
+      #     VERSION=$(echo "${{ github.ref }}" | sed -e 's|.*/\(.*\)|\1|')
 
-          echo $VERSION
+      #     echo $VERSION
 
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+      #     # Strip "v" prefix from tag name
+      #     [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
 
-          echo $VERSION
+      #     echo $VERSION
 
-          # Use Docker `latest` tag convention
-          [[ "$VERSION" == "master" ]] && VERSION=latest
+      #     # Use Docker `latest` tag convention
+      #     [[ "$VERSION" == "master" ]] && VERSION=latest
 
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
+      #     echo IMAGE_ID=$IMAGE_ID
+      #     echo VERSION=$VERSION
 
-      - name: Echo version
-        run: echo $VERSION
+      # - name: Echo version
+      #   run: echo $VERSION
 
       - name: Docker meta
         id: docker_meta
@@ -74,9 +74,8 @@ jobs:
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
-            {{major}}
 
-      - name: Echo version
+      - name: Echo docker_meta
         run: |
           echo "tags: ${{ steps.docker_meta.outputs.tags }}"
           echo "labels: ${{ steps.docker_meta.outputs.labels }}"
