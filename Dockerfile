@@ -25,6 +25,10 @@ RUN apk update \
 COPY ./bats-libs/ /opt/bats-libs/
 
 RUN ls -l /opt/bats-libs/
+RUN ls -l /opt/bats-libs/bats-core/
+RUN ls -l /opt/bats-libs/bats-core/bin/
+RUN ls -l /opt/bats-libs/bats-core/bin/bats
+RUN stat /opt/bats-libs/bats-core/bin/bats
 
 ARG BUILD_DATE
 LABEL org.opencontainers.image.version={VERSION}
