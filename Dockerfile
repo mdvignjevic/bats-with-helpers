@@ -22,7 +22,7 @@ RUN apk update \
     wget \
     && rm -rf /var/cache/apk/*
 
-COPY ./bats-libs/ /opt/bats-libs/
+COPY ./bats-libs /opt/bats-libs
 
 RUN ls -l /opt/bats-libs/
 RUN ls -l /opt/bats-libs/bats-core/
