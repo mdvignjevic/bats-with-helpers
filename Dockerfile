@@ -19,6 +19,7 @@ RUN apk update \
     curl \
     git \
     ncurses \
+    openssl \
     wget \
     && rm -rf /var/cache/apk/*
 

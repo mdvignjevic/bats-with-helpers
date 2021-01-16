@@ -32,8 +32,10 @@ jobs:
     needs: lint
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository and submodules
         uses: actions/checkout@v2
+        with:
+          submodules: recursive
 
       - name: Docker meta to get semver version
         id: docker_meta
