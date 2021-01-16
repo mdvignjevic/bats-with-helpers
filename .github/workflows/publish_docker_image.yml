@@ -3,14 +3,12 @@ name: CI to Docker hub
 
 on:
   push:
-    # Publish `master` as Docker `latest` image.
-    branches: [master]
-    # Publish `v1.2.3` tags as releases.
+    # Only publish Docker image only on semver tag.
     tags:
       - "v*.*.*"
 
-  # Run lint, build, test jobs for any PRs.
-  pull_request:
+  # # Run lint, build and test jobs for any PRs.
+  # pull_request:
 
 env:
   DOCKER_IMAGE: "mvignjevic/bats-with-helpers"

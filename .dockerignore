@@ -1,5 +1,7 @@
 .git/
 .github/
 .gitignore
+.gitmodules
 .cache
+Dockerfile
 Makefile

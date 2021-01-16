@@ -7,6 +7,7 @@ VERSION		?= latest
 BLUE=\033[0;34m
 NC=\033[0m # No Color
 
+
 .PHONY: lint
 lint:
 	@echo "\n\n${BLUE}Running Shellcheck analysis against test_helpers.bash file...${NC}\n"
@@ -14,6 +15,7 @@ lint:
 	@echo "\n\n${BLUE}Running Hadolint linter against Dockerfile...${NC}\n"
 	@docker run --rm -i hadolint/hadolint < Dockerfile && echo "OK"
 	@echo "\n"
+
 
 # Examples:
 #   1. make build  (defaults to 'latest' tag)
@@ -31,6 +33,7 @@ build:
 	@docker inspect $(IMAGE):$(VERSION) -f '{{ json .Config.Labels }}' | jq -r .
 	@echo "\n"
 
+
 # Examples:
 #   1. make test  (defaults to 'latest' tag)
 #   2. make test VERSION=0.0.1
@@ -47,11 +50,12 @@ test:
 		./tests/test-example.bats
 	@echo "\n"
 
-# Example: make push
-.PHONY: push
-push: lint build test
-	@echo "\n${BLUE}Pushing image to GitHub Docker Registry...${NC}\n"
-	@docker push $(IMAGE):latest
+# TODO: Add push command for semver major/minor/patch also
+# # Example: make push
+# .PHONY: push
+# push: lint build test
+# 	@echo "\n${BLUE}Pushing image to GitHub Docker Registry...${NC}\n"
+# 	@docker push $(IMAGE):latest
 
 # When Docker pushes version 2.6.3, they will overwrite all but the 2.6.2 tag.
 # None of this happens automatically in Docker; your build and release process should tag and push each of these separately:
@@ -78,6 +82,7 @@ shell:
 			--entrypoint /bin/sh 		\
 			$(IMAGE):$(VERSION)
 
+
 # Examples:
 #   1. make shell-cmd CMD="-c 'date >> datefile'"  (defaults to 'latest' tag)
 #   2. make shell-cmd VERSION=0.0.1 CMD="-c 'date >> datefile'"
@@ -93,6 +98,7 @@ shell-cmd:
 			$(IMAGE):$(VERSION) 		\
 			$(CMD)
 
+
 # Examples:
 #   1. make docker-clean  (defaults to 'latest' tag)
 #   2. make docker-clean VERSION=0.0.1
@@ -106,6 +112,7 @@ docker-clean:
 		--filter "label=org.opencontainers.image.version=$(VERSION)"
 	@echo "\n"
 
+
 .PHONY: clean
 clean:
-	rm -rf .coverage
+	rm -f .coverage
