@@ -1,7 +1,7 @@
 BASENAME 	?= bats-with-helpers
+BUILD_DATE 	:= $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 DOCKER_ID	?= mvignjevic
 IMAGE 		?= $(DOCKER_ID)/$(BASENAME)
-BUILD_DATE 	:= $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 VERSION		?= latest
 
 BLUE=\033[0;34m
@@ -53,7 +53,8 @@ push: lint build test
 	@echo "\n${BLUE}Pushing image to GitHub Docker Registry...${NC}\n"
 	@docker push $(IMAGE):latest
 
-# When Docker pushes version 2.6.3, they will overwrite all but the 2.6.2 tag. None of this happens automatically in Docker; your build and release process should tag and push each of these separately:
+# When Docker pushes version 2.6.3, they will overwrite all but the 2.6.2 tag.
+# None of this happens automatically in Docker; your build and release process should tag and push each of these separately:
 # $ docker build -t registry:latest .
 # $ docker push registry:latest
 # $ docker tag registry:latest registry:2
@@ -92,10 +93,6 @@ shell-cmd:
 			$(IMAGE):$(VERSION) 		\
 			$(CMD)
 
-.PHONY: clean
-clean:
-	rm -rf .coverage
-
 # Examples:
 #   1. make docker-clean  (defaults to 'latest' tag)
 #   2. make docker-clean VERSION=0.0.1
@@ -108,3 +105,7 @@ docker-clean:
 		--filter "label=org.opencontainers.image.title=$(IMAGE)" \
 		--filter "label=org.opencontainers.image.version=$(VERSION)"
 	@echo "\n"
+
+.PHONY: clean
+clean:
+	rm -rf .coverage

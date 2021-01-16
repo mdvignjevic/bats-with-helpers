@@ -1,4 +1,4 @@
-# Use different base image based on your needs, to support all shell script functionality
+# Use different base image based on the shell script needs
 FROM alpine:3.12
 
 LABEL org.opencontainers.image.title="mvignjevic/{NAME}"
@@ -12,6 +12,7 @@ LABEL org.opencontainers.image.docker.cmd='docker run --rm -t -v ${PWD}:/code mv
 LABEL org.opencontainers.image.docker.debug='docker run --rm -it -v ${PWD}:/code --entrypoint /bin/sh mvignjevic/bats-with-helpers'
 LABEL org.opencontainers.image.licenses="MIT"
 
+# Install additional packages based on the shell script needs
 # hadolint ignore=DL3018
 RUN apk update \
     && apk add --no-cache \
@@ -24,12 +25,6 @@ RUN apk update \
     && rm -rf /var/cache/apk/*
 
 COPY ./bats-libs /opt/bats-libs
-
-RUN ls -l /opt/bats-libs/
-RUN ls -l /opt/bats-libs/bats-core/
-RUN ls -l /opt/bats-libs/bats-core/bin/
-RUN ls -l /opt/bats-libs/bats-core/bin/bats
-RUN stat /opt/bats-libs/bats-core/bin/bats
 
 ARG BUILD_DATE
 LABEL org.opencontainers.image.version={VERSION}

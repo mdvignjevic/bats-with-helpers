@@ -41,7 +41,8 @@ jobs:
         id: docker_meta
         uses: crazy-max/ghaction-docker-meta@v1
         with:
-          images: ${DOCKER_IMAGE} # List of Docker images to use as base name for tags
+          # List of Docker images to use as base name for tags
+          images: ${DOCKER_IMAGE}
           tag-semver: "{{version}}"
 
       - name: Build image using the latest tag
