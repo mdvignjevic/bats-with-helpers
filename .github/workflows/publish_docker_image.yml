@@ -40,7 +40,7 @@ jobs:
       #   uses: crazy-max/ghaction-docker-meta@v1
       #   with:
       #     # List of Docker images to use as base name for tags
-      #     images: ${DOCKER_IMAGE}
+      #     images: ${{env.DOCKER_IMAGE}}
       #     tag-semver: "{{version}}"
 
       - name: Docker meta to get semver version
@@ -48,7 +48,7 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           # List of Docker images to use as base name for tags
-          images: mvignjevic/bats-with-helpers
+          images: ${{env.DOCKER_IMAGE}}
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
@@ -81,7 +81,7 @@ jobs:
   #       uses: crazy-max/ghaction-docker-meta@v1
   #       with:
   #         # List of Docker images to use as base name for tags
-  #         images: ${DOCKER_IMAGE}
+  #         images: ${{env.DOCKER_IMAGE}}
   #         tag-semver: |
   #           {{version}}
   #           {{major}}.{{minor}}
