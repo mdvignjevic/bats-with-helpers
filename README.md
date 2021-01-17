@@ -2,8 +2,9 @@
 
 > Docker image that contains bats-core testing system and bats test helpers
 
-[![NPM Version][npm-image]][npm-url]
-[![Downloads Stats][npm-downloads]][npm-url]
+[![License](https://img.shields.io/github/license/panta5/bats-with-helpers.svg)][license-url]
+
+[![Actions Status](https://github.com/panta5/bats-with-helpers/workflows/CI%20to%20Docker%20hub/badge.svg?branch=v1.0.0)][actions-url]
 
 Bats is a TAP-compliant testing framework for Bash. It provides a simple way to verify that the UNIX programs you write behave as expected.
 A Bats test file is a Bash script with special syntax for defining test cases. Under the hood, each test case is just a function with a description.
@@ -31,23 +32,19 @@ docker run -v "${PWD}:/code" mvignjevic/bats-with-helpers ./tests/test-example.b
 docker run --rm -it -v ${PWD}:/code --entrypoint /bin/sh mvignjevic/bats-with-helpers
 ```
 
-## Release History
+## Version history
 
 - 1.0.0
-  - The first proper release
-  - CHANGE: Rename `foo()` to `bar()`
-- 0.1.0
-  - Work in progress
+  - The first proper release.
 
 ## Meta
 
-Milan Vignjevic – panta5555@gmail.com
+Milan Vignjevic
 
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [https://github.com/panta5/bats-with-helpers](https://github.com/panta5/bats-with-helpers)
 
-<!-- Markdown link & img dfn's -->
-[npm-image]: https://img.shields.io/npm/v/datadog-metrics.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/datadog-metrics
-[npm-downloads]: https://img.shields.io/npm/dm/datadog-metrics.svg?style=flat-square
+<!-- Markdown link & img definitions -->
+[licence-url]: https://github.com/panta5/bats-with-helpers/blob/master/LICENSE
+[actions-url]: https://github.com/panta5/bats-with-helpers/actions

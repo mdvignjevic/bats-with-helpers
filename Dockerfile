@@ -1,7 +1,10 @@
 # Use different base image based on the shell script needs
 FROM alpine:3.12
 
+ARG BUILD_DATE
 LABEL org.opencontainers.image.title="mvignjevic/{NAME}"
+LABEL org.opencontainers.image.version={VERSION}
+LABEL org.opencontainers.image.created=${BUILD_DATE}
 LABEL org.opencontainers.image.description="Docker image that contains bats-core testing system and bats test helpers"
 LABEL org.opencontainers.image.url="https://github.com/panta5/bats-with-helpers"
 LABEL org.opencontainers.image.source="https://github.com/panta5/bats-with-helpers"
@@ -25,10 +28,6 @@ RUN apk update \
     && rm -rf /var/cache/apk/*
 
 COPY ./bats-libs /opt/bats-libs
-
-ARG BUILD_DATE
-LABEL org.opencontainers.image.version={VERSION}
-LABEL org.opencontainers.image.created=${BUILD_DATE}
 
 WORKDIR /code
 
