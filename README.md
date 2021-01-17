@@ -2,9 +2,8 @@
 
 > Docker image that contains bats-core testing system and bats test helpers
 
-[![License](https://img.shields.io/github/license/panta5/bats-with-helpers.svg)][license-url]
-
-[![Actions Status](https://github.com/panta5/bats-with-helpers/workflows/CI%20to%20Docker%20hub/badge.svg?branch=v1.0.0)][actions-url]
+[![License](https://img.shields.io/github/license/panta5/bats-with-helpers.svg)](https://github.com/panta5/bats-with-helpers/blob/master/LICENSE)
+[![Actions Status](https://github.com/panta5/bats-with-helpers/workflows/CI%20to%20Docker%20hub/badge.svg?branch=v1.0.0)](https://github.com/panta5/bats-with-helpers/actions)
 
 Bats is a TAP-compliant testing framework for Bash. It provides a simple way to verify that the UNIX programs you write behave as expected.
 A Bats test file is a Bash script with special syntax for defining test cases. Under the hood, each test case is just a function with a description.
@@ -45,6 +44,5 @@ Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [https://github.com/panta5/bats-with-helpers](https://github.com/panta5/bats-with-helpers)
 
-<!-- Markdown link & img definitions -->
 [licence-url]: https://github.com/panta5/bats-with-helpers/blob/master/LICENSE
 [actions-url]: https://github.com/panta5/bats-with-helpers/actions
