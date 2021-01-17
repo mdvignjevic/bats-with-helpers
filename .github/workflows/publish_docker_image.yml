@@ -35,30 +35,13 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Docker meta to get semver version
-        id: docker_meta
-        uses: crazy-max/ghaction-docker-meta@v1
-        with:
-          # List of Docker images to use as base name for tags
-          images: ${DOCKER_IMAGE}
-          tag-semver: "{{version}}"
-
-      - name: Build image using the latest tag
-        run: make build VERSION=${{ steps.docker_meta.outputs.version }}
-
-      - name: Run test-example.bats unit tests against previously built Docker image
-        run: make test VERSION=${{ steps.docker_meta.outputs.version }}
-
-  push:
-    if: "github.event_name != 'pull_request'"
-    name: Build and publish Docker images to Docker Hub
-    needs: test_build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          submodules: recursive
+      # - name: Docker meta to get semver version
+      #   id: docker_meta
+      #   uses: crazy-max/ghaction-docker-meta@v1
+      #   with:
+      #     # List of Docker images to use as base name for tags
+      #     images: ${DOCKER_IMAGE}
+      #     tag-semver: "{{version}}"
 
       - name: Docker meta to get semver version
         id: docker_meta
@@ -71,36 +54,69 @@ jobs:
             {{major}}.{{minor}}
             {{major}}
 
-      - name: Set up Docker Buildx
-        id: buildx
-        uses: docker/setup-buildx-action@v1
+      - name: Echo docker_meta
+        run: |
+          echo "tags: ${{ steps.docker_meta.outputs.tags }}"
+          echo "version: ${{ steps.docker_meta.outputs.version }}"
 
-      - name: Cache Docker layers
-        uses: actions/cache@v2
-        with:
-          path: /tmp/.buildx-cache
-          key: ${{ runner.os }}-buildx-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-buildx-
+      # - name: Build image using the latest tag
+      #   run: make build VERSION=${{ steps.docker_meta.outputs.version }}
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v1
-        with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }}
-          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      # - name: Run test-example.bats unit tests against previously built Docker image
+      #   run: make test VERSION=${{ steps.docker_meta.outputs.version }}
 
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v2
-        with:
-          context: ./
-          file: ./Dockerfile
-          builder: ${{ steps.buildx.outputs.name }}
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+  # push:
+  #   if: "github.event_name != 'pull_request'"
+  #   name: Build and publish Docker images to Docker Hub
+  #   needs: test_build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository and submodules
+  #       uses: actions/checkout@v2
+  #       with:
+  #         submodules: recursive
 
-      - name: Image digest
-        run: echo ${{ steps.docker_build.outputs.digest }}
+  #     - name: Docker meta to get semver version
+  #       id: docker_meta
+  #       uses: crazy-max/ghaction-docker-meta@v1
+  #       with:
+  #         # List of Docker images to use as base name for tags
+  #         images: ${DOCKER_IMAGE}
+  #         tag-semver: |
+  #           {{version}}
+  #           {{major}}.{{minor}}
+  #           {{major}}
+
+  #     - name: Set up Docker Buildx
+  #       id: buildx
+  #       uses: docker/setup-buildx-action@v1
+
+  #     - name: Cache Docker layers
+  #       uses: actions/cache@v2
+  #       with:
+  #         path: /tmp/.buildx-cache
+  #         key: ${{ runner.os }}-buildx-${{ github.sha }}
+  #         restore-keys: |
+  #           ${{ runner.os }}-buildx-
+
+  # - name: Login to Docker Hub
+  #   uses: docker/login-action@v1
+  #   with:
+  #     username: ${{ secrets.DOCKER_HUB_USERNAME }}
+  #     password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+
+  # - name: Build and push
+  #   id: docker_build
+  #   uses: docker/build-push-action@v2
+  #   with:
+  #     context: ./
+  #     file: ./Dockerfile
+  #     builder: ${{ steps.buildx.outputs.name }}
+  #     push: ${{ github.event_name != 'pull_request' }}
+  #     tags: ${{ steps.docker_meta.outputs.tags }}
+  #     labels: ${{ steps.docker_meta.outputs.labels }}
+  #     cache-from: type=local,src=/tmp/.buildx-cache
+  #     cache-to: type=local,dest=/tmp/.buildx-cache
+
+  # - name: Image digest
+  #   run: echo ${{ steps.docker_build.outputs.digest }}
