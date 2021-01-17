@@ -48,7 +48,7 @@ jobs:
         uses: crazy-max/ghaction-docker-meta@v1
         with:
           # List of Docker images to use as base name for tags
-          images: ${DOCKER_IMAGE}
+          images: mvignjevic/bats-with-helpers
           tag-semver: |
             {{version}}
             {{major}}.{{minor}}
