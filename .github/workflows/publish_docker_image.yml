@@ -25,7 +25,7 @@ jobs:
         run: make lint
 
   test_build:
-    if: "github.event_name == 'push'"
+    if: "github.event_name != 'pull_request'"
     name: Build Docker image and exercise tests from test-example.bats
     # Ensure lint job passes before building image and testing.
     needs: lint
