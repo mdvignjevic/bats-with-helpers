@@ -7,8 +7,8 @@ on:
     tags:
       - "v*.*.*"
 
-  # # Run lint, build and test jobs for any PRs.
-  # pull_request:
+  # Run lint, build and test jobs for any PRs.
+  pull_request:
 
 env:
   DOCKER_IMAGE: "mvignjevic/bats-with-helpers"
@@ -25,6 +25,7 @@ jobs:
         run: make lint
 
   test_build:
+    if: "github.event_name == 'push'"
     name: Build Docker image and exercise tests from test-example.bats
     # Ensure lint job passes before building image and testing.
     needs: lint
