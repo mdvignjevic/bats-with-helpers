@@ -1,7 +1,6 @@
 BASENAME 	?= bats-with-helpers
 BUILD_DATE 	:= $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
-DOCKER_ID	?= mvignjevic
-IMAGE 		?= $(DOCKER_ID)/$(BASENAME)
+IMAGE 		?= mvignjevic/$(BASENAME)
 VERSION		?= latest
 
 BLUE=\033[0;34m

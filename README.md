@@ -16,13 +16,13 @@ A Bats test file is a Bash script with special syntax for defining test cases. U
 - Run bats tests using pretty (default with tty allocated) formatter:
 
 ```bash
-docker run -t -v "${PWD}:/code" mvignjevic/bats-with-helpers ./tests/test-example.bats
+docker run --rm -t -v "${PWD}:/code" mvignjevic/bats-with-helpers ./tests/test-example.bats
 ```
 
 - Run bats tests using tap (default without tty) formatter:
 
 ```bash
-docker run -v "${PWD}:/code" mvignjevic/bats-with-helpers ./tests/test-example.bats
+docker run --rm -v "${PWD}:/code" mvignjevic/bats-with-helpers ./tests/test-example.bats
 ```
 
 - Run the container with the interactive shell for debugging:
